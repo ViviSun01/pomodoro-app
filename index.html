@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>番茄钟</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <svg class="tomato-bg" viewBox="0 0 200 200" width="180" height="180">
+      <circle cx="100" cy="110" r="80" fill="#ff6347"/>
+      <circle cx="100" cy="110" r="80" fill="url(#bgGradient)"/>
+      <ellipse cx="70" cy="90" rx="20" ry="14" fill="#ff8078" opacity="0.5"/>
+      <path d="M100 30 Q90 10 80 30 Q100 20 120 30 Q110 10 100 30" fill="#4caf50"/>
+      <path d="M100 30 L100 50" stroke="#388e3c" stroke-width="6" stroke-linecap="round"/>
+      <path d="M100 30 Q120 15 110 50" fill="#4caf50"/>
+      <path d="M100 30 Q80 15 90 50" fill="#4caf50"/>
+      <defs>
+        <radialGradient id="bgGradient" cx="30%" cy="30%">
+          <stop offset="0%" stop-color="#ff8078"/>
+          <stop offset="100%" stop-color="#ff6347"/>
+        </radialGradient>
+      </defs>
+    </svg>
+
+    <div class="mode-switch">
+      <button class="mode-btn active" data-mode="focus">专注</button>
+      <button class="mode-btn" data-mode="shortBreak">短休</button>
+      <button class="mode-btn" data-mode="longBreak">长休</button>
+    </div>
+
+    <div class="timer" id="timer">25:00</div>
+
+    <div class="progress-ring">
+      <svg viewBox="0 0 100 100">
+        <circle class="progress-bg" cx="50" cy="50" r="45"/>
+        <circle class="progress-bar" cx="50" cy="50" r="45" id="progressBar"/>
+      </svg>
+    </div>
+
+    <div class="cycle-info" id="cycleInfo">第 1 次专注</div>
+
+    <div class="controls">
+      <button class="btn btn-secondary" id="skipBtn">跳过</button>
+      <button class="btn btn-primary" id="startBtn">开始</button>
+      <button class="btn btn-secondary" id="resetBtn">重置</button>
+    </div>
+
+    <button class="settings-btn" id="settingsBtn">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>设置</h2>
+        <div class="setting-item">
+          <label>专注时长（分钟）</label>
+          <div class="number-stepper">
+            <button class="stepper-btn minus" data-target="focusMinutes">-</button>
+            <input type="number" id="focusMinutes" min="1" max="180" value="25">
+            <button class="stepper-btn plus" data-target="focusMinutes">+</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label>短休息时长（分钟）</label>
+          <div class="number-stepper">
+            <button class="stepper-btn minus" data-target="shortBreakMinutes">-</button>
+            <input type="number" id="shortBreakMinutes" min="1" max="180" value="5">
+            <button class="stepper-btn plus" data-target="shortBreakMinutes">+</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label>长休息时长（分钟）</label>
+          <div class="number-stepper">
+            <button class="stepper-btn minus" data-target="longBreakMinutes">-</button>
+            <input type="number" id="longBreakMinutes" min="1" max="180" value="15">
+            <button class="stepper-btn plus" data-target="longBreakMinutes">+</button>
+          </div>
+        </div>
+        <div class="setting-item">
+          <label>每</label>
+          <div class="number-stepper">
+            <button class="stepper-btn minus" data-target="longBreakEvery">-</button>
+            <input type="number" id="longBreakEvery" min="1" max="10" value="4">
+            <button class="stepper-btn plus" data-target="longBreakEvery">+</button>
+          </div>
+          <span>次专注后进入长休息</span>
+        </div>
+        <div class="setting-item toggle-item">
+          <label>自动开始休息</label>
+          <label class="toggle">
+            <input type="checkbox" id="autoStartBreak">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item toggle-item">
+          <label>自动开始专注</label>
+          <label class="toggle">
+            <input type="checkbox" id="autoStartFocus">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-note">修改当前阶段时长将应用到下一轮</div>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" id="cancelSettings">取消</button>
+          <button class="btn btn-primary" id="saveSettings">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="confirm-dialog" id="confirmDialog">
+      <div class="confirm-content">
+        <p id="confirmMessage">切换模式将重置当前计时，是否继续？</p>
+        <div class="confirm-buttons">
+          <button class="btn btn-secondary" id="confirmCancel">取消</button>
+          <button class="btn btn-primary" id="confirmOk">确定</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+</html>
