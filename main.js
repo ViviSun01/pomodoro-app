@@ -8,8 +8,10 @@ let isQuitting = false;
 function createWindow() {
   mainWindow = new BrowserWindow({
     width: 400,
-    height: 500,
-    resizable: false,
+    height: 600,
+    minWidth: 340,
+    minHeight: 500,
+    resizable: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

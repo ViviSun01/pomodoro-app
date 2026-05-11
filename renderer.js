@@ -22,6 +22,7 @@ const progressBar = document.getElementById('progressBar');
 const startBtn = document.getElementById('startBtn');
 const resetBtn = document.getElementById('resetBtn');
 const skipBtn = document.getElementById('skipBtn');
+const modeLabel = document.getElementById('modeLabel');
 const cycleInfoEl = document.getElementById('cycleInfo');
 const settingsBtn = document.getElementById('settingsBtn');
 const settingsModal = document.getElementById('settingsModal');
@@ -115,6 +116,12 @@ function updateModeUI() {
   modeBtns.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.mode === currentMode);
   });
+  updateModeLabel();
+}
+
+function updateModeLabel() {
+  const labels = { focus: '专注时间', shortBreak: '短休息时间', longBreak: '长休息时间' };
+  modeLabel.textContent = labels[currentMode];
 }
 
 function showConfirm(message, onOk) {

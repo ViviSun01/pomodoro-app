@@ -8,29 +8,36 @@
 </head>
 <body>
   <div class="container">
-    <svg class="tomato-bg" viewBox="0 0 200 200" width="180" height="180">
-      <circle cx="100" cy="110" r="80" fill="#ff6347"/>
-      <circle cx="100" cy="110" r="80" fill="url(#bgGradient)"/>
-      <ellipse cx="70" cy="90" rx="20" ry="14" fill="#ff8078" opacity="0.5"/>
-      <path d="M100 30 Q90 10 80 30 Q100 20 120 30 Q110 10 100 30" fill="#4caf50"/>
-      <path d="M100 30 L100 50" stroke="#388e3c" stroke-width="6" stroke-linecap="round"/>
-      <path d="M100 30 Q120 15 110 50" fill="#4caf50"/>
-      <path d="M100 30 Q80 15 90 50" fill="#4caf50"/>
+    <svg class="tomato-bg" viewBox="0 0 200 200" width="160" height="160">
       <defs>
-        <radialGradient id="bgGradient" cx="30%" cy="30%">
-          <stop offset="0%" stop-color="#ff8078"/>
-          <stop offset="100%" stop-color="#ff6347"/>
+        <radialGradient id="tomatoGrad" cx="35%" cy="30%">
+          <stop offset="0%" stop-color="#f07060"/>
+          <stop offset="50%" stop-color="#e54d42"/>
+          <stop offset="100%" stop-color="#c93d32"/>
+        </radialGradient>
+        <radialGradient id="shineGrad" cx="50%" cy="50%">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
         </radialGradient>
       </defs>
+      <ellipse cx="100" cy="108" rx="78" ry="72" fill="url(#tomatoGrad)"/>
+      <ellipse cx="82" cy="92" rx="22" ry="16" fill="rgba(255,180,170,0.25)"/>
+      <circle cx="65" cy="85" r="8" fill="rgba(255,255,255,0.15)"/>
+      <path d="M100 36 Q85 16 75 36 Q100 24 125 36 Q115 16 100 36" fill="#4a8a54"/>
+      <path d="M100 36 Q130 20 118 55" fill="#5a9a64" stroke="none"/>
+      <path d="M100 36 Q70 20 82 55" fill="#4a8a54" stroke="none"/>
+      <path d="M100 36 L100 56" stroke="#3d7a47" stroke-width="5" stroke-linecap="round"/>
+      <ellipse cx="100" cy="108" rx="78" ry="72" fill="url(#shineGrad)" opacity="0.5"/>
     </svg>
 
     <div class="mode-switch">
       <button class="mode-btn active" data-mode="focus">专注</button>
-      <button class="mode-btn" data-mode="shortBreak">短休</button>
-      <button class="mode-btn" data-mode="longBreak">长休</button>
+      <button class="mode-btn" data-mode="shortBreak">短休息</button>
+      <button class="mode-btn" data-mode="longBreak">长休息</button>
     </div>
 
     <div class="timer" id="timer">25:00</div>
+    <div class="mode-label" id="modeLabel">专注时间</div>
 
     <div class="progress-ring">
       <svg viewBox="0 0 100 100">
@@ -39,8 +46,6 @@
       </svg>
     </div>
 
-    <div class="cycle-info" id="cycleInfo">第 1 次专注</div>
-
     <div class="controls">
       <button class="btn btn-secondary" id="skipBtn">跳过</button>
       <button class="btn btn-primary" id="startBtn">开始</button>
@@ -48,9 +53,9 @@
     </div>
 
     <button class="settings-btn" id="settingsBtn">
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
       </svg>
     </button>
 
@@ -58,25 +63,25 @@
       <div class="modal-content">
         <h2>设置</h2>
         <div class="setting-item">
-          <label>专注时长（分钟）</label>
+          <label>专注时长</label>
           <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="focusMinutes">-</button>
+            <button class="stepper-btn minus" data-target="focusMinutes">−</button>
             <input type="number" id="focusMinutes" min="1" max="180" value="25">
             <button class="stepper-btn plus" data-target="focusMinutes">+</button>
           </div>
         </div>
         <div class="setting-item">
-          <label>短休息时长（分钟）</label>
+          <label>短休息时长</label>
           <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="shortBreakMinutes">-</button>
+            <button class="stepper-btn minus" data-target="shortBreakMinutes">−</button>
             <input type="number" id="shortBreakMinutes" min="1" max="180" value="5">
             <button class="stepper-btn plus" data-target="shortBreakMinutes">+</button>
           </div>
         </div>
         <div class="setting-item">
-          <label>长休息时长（分钟）</label>
+          <label>长休息时长</label>
           <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="longBreakMinutes">-</button>
+            <button class="stepper-btn minus" data-target="longBreakMinutes">−</button>
             <input type="number" id="longBreakMinutes" min="1" max="180" value="15">
             <button class="stepper-btn plus" data-target="longBreakMinutes">+</button>
           </div>
@@ -84,27 +89,26 @@
         <div class="setting-item">
           <label>每</label>
           <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="longBreakEvery">-</button>
+            <button class="stepper-btn minus" data-target="longBreakEvery">−</button>
             <input type="number" id="longBreakEvery" min="1" max="10" value="4">
             <button class="stepper-btn plus" data-target="longBreakEvery">+</button>
           </div>
-          <span>次专注后进入长休息</span>
+          <span>次专注后长休息</span>
         </div>
         <div class="setting-item toggle-item">
-          <label>自动开始休息</label>
+          <span class="setting-text">自动开始休息</span>
           <label class="toggle">
             <input type="checkbox" id="autoStartBreak">
             <span class="toggle-slider"></span>
           </label>
         </div>
         <div class="setting-item toggle-item">
-          <label>自动开始专注</label>
+          <span class="setting-text">自动开始专注</span>
           <label class="toggle">
             <input type="checkbox" id="autoStartFocus">
             <span class="toggle-slider"></span>
           </label>
         </div>
-        <div class="setting-note">修改当前阶段时长将应用到下一轮</div>
         <div class="modal-buttons">
           <button class="btn btn-secondary" id="cancelSettings">取消</button>
           <button class="btn btn-primary" id="saveSettings">保存</button>
@@ -114,7 +118,7 @@
 
     <div class="confirm-dialog" id="confirmDialog">
       <div class="confirm-content">
-        <p id="confirmMessage">切换模式将重置当前计时，是否继续？</p>
+        <p id="confirmMessage">切换模式将重置计时器，确定继续？</p>
         <div class="confirm-buttons">
           <button class="btn btn-secondary" id="confirmCancel">取消</button>
           <button class="btn btn-primary" id="confirmOk">确定</button>
