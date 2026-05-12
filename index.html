@@ -2,132 +2,86 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>番茄钟</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>一盏灯</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Adamina&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <svg class="tomato-bg" viewBox="0 0 200 200" width="160" height="160">
-      <defs>
-        <radialGradient id="tomatoGrad" cx="35%" cy="30%">
-          <stop offset="0%" stop-color="#f07060"/>
-          <stop offset="50%" stop-color="#e54d42"/>
-          <stop offset="100%" stop-color="#c93d32"/>
-        </radialGradient>
-        <radialGradient id="shineGrad" cx="50%" cy="50%">
-          <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
-          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-        </radialGradient>
-      </defs>
-      <ellipse cx="100" cy="108" rx="78" ry="72" fill="url(#tomatoGrad)"/>
-      <ellipse cx="82" cy="92" rx="22" ry="16" fill="rgba(255,180,170,0.25)"/>
-      <circle cx="65" cy="85" r="8" fill="rgba(255,255,255,0.15)"/>
-      <path d="M100 36 Q85 16 75 36 Q100 24 125 36 Q115 16 100 36" fill="#4a8a54"/>
-      <path d="M100 36 Q130 20 118 55" fill="#5a9a64" stroke="none"/>
-      <path d="M100 36 Q70 20 82 55" fill="#4a8a54" stroke="none"/>
-      <path d="M100 36 L100 56" stroke="#3d7a47" stroke-width="5" stroke-linecap="round"/>
-      <ellipse cx="100" cy="108" rx="78" ry="72" fill="url(#shineGrad)" opacity="0.5"/>
-    </svg>
+  <div class="app-frame" id="appFrame" data-theme="light" data-lamp="off">
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar"></div>
 
-    <div class="mode-switch">
-      <button class="mode-btn active" data-mode="focus">专注</button>
-      <button class="mode-btn" data-mode="shortBreak">短休息</button>
-      <button class="mode-btn" data-mode="longBreak">长休息</button>
+    <!-- Lamp Container -->
+    <div class="lamp-container" id="lampContainer">
+      <!-- Light effect behind lamp (only visible when on) -->
+      <div class="lamp-glow" id="lampGlow"></div>
+
+      <!-- Lamp shade (Union) -->
+      <img class="lamp-shade" id="lampShade" alt="lamp">
+
+      <!-- Lamp base/light (only visible when on) -->
+      <img class="lamp-base" id="lampBase" alt="lamp base">
+      <img class="lamp-light" id="lampLight" alt="lamp light">
+
+      <!-- Lamp dot -->
+      <img class="lamp-dot" id="lampDot" alt="dot">
     </div>
 
-    <div class="timer" id="timer">25:00</div>
-    <div class="mode-label" id="modeLabel">专注时间</div>
+    <!-- Timer Display -->
+    <div class="timer-display" id="timerDisplay">00:00</div>
 
-    <div class="progress-ring">
-      <svg viewBox="0 0 100 100">
-        <circle class="progress-bg" cx="50" cy="50" r="45"/>
-        <circle class="progress-bar" cx="50" cy="50" r="45" id="progressBar"/>
-      </svg>
+    <!-- Turn On Button -->
+    <div class="turn-on-btn" id="turnOnBtn">
+      <span class="turn-on-text" id="turnOnText">Turn On</span>
     </div>
 
-    <div class="controls">
-      <button class="btn btn-secondary" id="skipBtn">跳过</button>
-      <button class="btn btn-primary" id="startBtn">开始</button>
-      <button class="btn btn-secondary" id="resetBtn">重置</button>
+    <!-- Settings Button -->
+    <div class="settings-btn" id="settingsBtn">
+      <img src="https://www.figma.com/api/mcp/asset/63d91c79-64f2-4b18-ac94-003b3442a33b" alt="settings">
     </div>
-
-    <button class="settings-btn" id="settingsBtn">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-      </svg>
-    </button>
-
-    <div class="modal" id="settingsModal">
-      <div class="modal-content">
-        <h2>设置</h2>
-        <div class="setting-item">
-          <label>专注时长</label>
-          <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="focusMinutes">−</button>
-            <input type="number" id="focusMinutes" min="1" max="180" value="25">
-            <button class="stepper-btn plus" data-target="focusMinutes">+</button>
-          </div>
-        </div>
-        <div class="setting-item">
-          <label>短休息时长</label>
-          <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="shortBreakMinutes">−</button>
-            <input type="number" id="shortBreakMinutes" min="1" max="180" value="5">
-            <button class="stepper-btn plus" data-target="shortBreakMinutes">+</button>
-          </div>
-        </div>
-        <div class="setting-item">
-          <label>长休息时长</label>
-          <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="longBreakMinutes">−</button>
-            <input type="number" id="longBreakMinutes" min="1" max="180" value="15">
-            <button class="stepper-btn plus" data-target="longBreakMinutes">+</button>
-          </div>
-        </div>
-        <div class="setting-item">
-          <label>每</label>
-          <div class="number-stepper">
-            <button class="stepper-btn minus" data-target="longBreakEvery">−</button>
-            <input type="number" id="longBreakEvery" min="1" max="10" value="4">
-            <button class="stepper-btn plus" data-target="longBreakEvery">+</button>
-          </div>
-          <span>次专注后长休息</span>
-        </div>
-        <div class="setting-item toggle-item">
-          <span class="setting-text">自动开始休息</span>
-          <label class="toggle">
-            <input type="checkbox" id="autoStartBreak">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="setting-item toggle-item">
-          <span class="setting-text">自动开始专注</span>
-          <label class="toggle">
-            <input type="checkbox" id="autoStartFocus">
-            <span class="toggle-slider"></span>
-          </label>
-        </div>
-        <div class="modal-buttons">
-          <button class="btn btn-secondary" id="cancelSettings">取消</button>
-          <button class="btn btn-primary" id="saveSettings">保存</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="confirm-dialog" id="confirmDialog">
-      <div class="confirm-content">
-        <p id="confirmMessage">切换模式将重置计时器，确定继续？</p>
-        <div class="confirm-buttons">
-          <button class="btn btn-secondary" id="confirmCancel">取消</button>
-          <button class="btn btn-primary" id="confirmOk">确定</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="toast" id="toast"></div>
   </div>
+
+  <!-- Settings Modal -->
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-content">
+      <h2 class="settings-title">Settings</h2>
+
+      <div class="settings-section">
+        <div class="settings-label">Focus Duration</div>
+        <div class="settings-item">
+          <span class="settings-item-text">Minutes</span>
+          <input type="number" class="duration-input" id="durationInput" value="25" min="1" max="120">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Theme</div>
+        <div class="settings-item">
+          <span class="settings-item-text">Appearance</span>
+          <div class="theme-toggle">
+            <button class="theme-btn active" data-theme="light">Light</button>
+            <button class="theme-btn" data-theme="dark">Dark</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="close-btn" id="closeSettingsBtn">Done</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
   <script src="renderer.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,19 @@
+{
+  "name": "一盏灯",
+  "short_name": "一盏灯",
+  "description": "专注时间管理",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1612",
+  "theme_color": "#1a1612",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%231a1612' width='512' height='512'/><ellipse cx='256' cy='420' rx='100' ry='30' fill='%233d3528'/><path d='M180 200 Q160 140 200 100 L312 100 Q352 140 332 200 Q300 220 256 220 Q212 220 180 200' fill='%23f5d799'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"]
+}
